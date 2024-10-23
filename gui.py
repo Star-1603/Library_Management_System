@@ -47,24 +47,6 @@ def add_book_window():
     save_button = Button(add_window, text="Add Book", command=save_book)
     save_button.grid(row=5, column=1)
 
-def search_book_window():
-    search_window = Toplevel()
-    search_window.title("Search Book by Barcode")
-
-    isbn_label = Label(search_window, text="Scan the barcode to retrieve book details")
-    isbn_label.pack()
-
-    def scan_and_search():
-        isbn = start_barcode_scanner()
-        book = search_book_by_isbn(isbn)
-        if book:
-            status = "Borrowed" if book[5] else "Available"
-            messagebox.showinfo("Book Found", f"Title: {book[2]}\nAuthor: {book[3]}\nYear: {book[4]}\nStatus: {status}\nBorrow Time: {book[6]}")
-        else:
-            messagebox.showwarning("Error", "Book not found")
-
-    scan_button = Button(search_window, text="Scan Barcode", command=scan_and_search)
-    scan_button.pack()
 
 def display_all_books_window():
     display_window = Toplevel()
@@ -190,9 +172,6 @@ def start_gui():
 
     add_book_button = Button(window, text="Add New Book", command=add_book_window, width=20)
     add_book_button.pack(pady=10)
-
-    search_book_button = Button(window, text="Search Book by Barcode", command=search_book_window, width=20)
-    search_book_button.pack(pady=10)
 
     borrow_book_button = Button(window, text="Borrow Book", command=borrow_book_window, width=20)
     borrow_book_button.pack(pady=10)
