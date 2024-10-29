@@ -36,19 +36,13 @@ def add_book_window():
         author = author_entry.get()
         year = year_entry.get()
         isbn = isbn_label.cget("text").replace("ISBN: ", "")
-    
-        try:
-            success = insert_book(isbn, title, author, year)
-            if success:
-                messagebox.showinfo("Success", "Book added successfully!")
-                add_window.destroy()
-            else:   
-                messagebox.showerror("Error", "Book did not get added due to a database error.")
-                add_window.destroy()
-        except Exception as e:
-            messagebox.showerror("Error", f"An unexpected error occurred: {str(e)}")
-            add_window.destroy()
 
+        if isbn and title and author and year:
+            insert_book(isbn, title, author, year)
+            messagebox.showinfo("Success", "Book added successfully!")
+            add_window.destroy()
+        else:
+            messagebox.showwarning("Error", "Please fill in all fields and scan the barcode")
 
     save_button = Button(add_window, text="Add Book", command=save_book)
     save_button.grid(row=5, column=1)

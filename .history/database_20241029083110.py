@@ -8,7 +8,7 @@ def connect():
     cur.execute("""
         CREATE TABLE IF NOT EXISTS books (
             id INTEGER PRIMARY KEY, 
-            isbn TEXT UNIQUE,  --Unique constraint
+            isbn TEXT, 
             title TEXT, 
             author TEXT, 
             year INTEGER, 
@@ -23,20 +23,9 @@ def connect():
 def insert_book(isbn, title, author, year):
     conn = sqlite3.connect("library.db")
     cur = conn.cursor()
-    
-    try:
-        # Attempt to insert the book
-        cur.execute("INSERT INTO books (isbn, title, author, year, borrowed) VALUES (?, ?, ?, ?, 0)", 
-                    (isbn, title, author, year))
-        conn.commit()
-        print("Book added successfully.")
-        return 1
-    except sqlite3.IntegrityError:
-        print("Error: A book with this ISBN already exists in the database.")
-        return 0
-    finally:
-        conn.close()
-
+    cur.execute("INSERT INTO books (isbn, title, author, year, borrowed) VALUES (?, ?, ?, ?, 0)", (isbn, title, author, year))
+    conn.commit()
+    conn.close()
 
 def borrow_book(isbn):
     conn = sqlite3.connect("library.db")
